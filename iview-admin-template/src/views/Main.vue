@@ -56,7 +56,7 @@ export default {
     data () {
         return {
             shrink: false,
-            userName: ''
+            userName: '121212'
         };
     },
     computed: {
@@ -66,7 +66,7 @@ export default {
     },
     methods: {
         init () {
-            this.userName = Cookies.get('user');
+            // this.userName = Cookies.get('user');
         },
         toggleClick () {
             this.shrink = !this.shrink;
