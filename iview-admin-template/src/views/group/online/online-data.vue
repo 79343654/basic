@@ -1,0 +1,1 @@
+<template>    <div>        <h1>online_data</h1>    </div></template><script>  export default {    name: 'online_data'  };</script>

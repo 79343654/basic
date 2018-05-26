@@ -3,22 +3,15 @@
 </style>
 
 <template>
-    <Menu ref="sideMenu" :active-name="$route.name" :open-names="openNames" :theme="menuTheme" width="auto" @on-select="changeMenu">
-        <template v-for="item in menuList">
-            <MenuItem v-if="item.children.length<=1" :name="item.children[0].name" :key="item.path">
-                <Icon :type="item.icon" :size="iconSize" :key="item.path"></Icon>
-                <span class="layout-text" :key="item.path">{{ itemTitle(item) }}</span>
-            </MenuItem>
-
-            <Submenu v-if="item.children.length > 1" :name="item.name" :key="item.path">
+    <Menu ref="sideMenu" active-name="$route.name"   :theme="menuTheme" width="auto" @on-select="changeMenu">
+        <template v-for="(item,index) in menuList">
+            <Submenu :name="item.name" :key="index">
                 <template slot="title">
-                    <Icon :type="item.icon" :size="iconSize"></Icon>
                     <span class="layout-text">{{ itemTitle(item) }}</span>
                 </template>
-                <template v-for="child in item.children">
-                    <MenuItem :name="child.name" :key="child.name">
-                        <Icon :type="child.icon" :size="iconSize" :key="child.name"></Icon>
-                        <span class="layout-text" :key="child.name">{{ child.title }}</span>
+                <template v-for="(child,childrenIndex) in item.children">
+                    <MenuItem :name="child.name" :key="childrenIndex">
+                        <span class="layout-text" :key="childrenIndex">{{ child.title }}</span>
                     </MenuItem>
                 </template>
             </Submenu>
@@ -29,15 +22,17 @@
 <script>
 export default {
     name: 'sidebarMenu',
+    data(){
+          return {
+            openNames:['']
+          }
+    },
     props: {
         menuList: Array,
         iconSize: Number,
         menuTheme: {
             type: String,
             default: 'dark'
-        },
-        openNames: {
-            type: Array
         }
     },
     methods: {

@@ -2,7 +2,9 @@ import {otherRouter, appRouter} from '@/router/router';
 
 const app = {
     state: {
-        menuList: [],
+        menuList: [{
+
+        }],
         routers: [
             otherRouter,
             ...appRouter

@@ -4,7 +4,7 @@
 <template>
     <div class="main" :class="{'main-hide-text': shrink}">
         <div class="sidebar-menu-con" :style="{width: shrink?'60px':'200px', overflow: shrink ? 'visible' : 'auto'}">
-            <shrinkable-menu 
+            <shrinkable-menu
                 :shrink="shrink"
                 :menu-list="menuList">
                 <div slot="top" class="logo-con">
@@ -20,6 +20,7 @@
                         <Icon type="navicon" size="32"></Icon>
                     </Button>
                 </div>
+                <span class="note-num">短信条数：90909</span>
                 <div class="header-avator-con">
                     <div class="user-dropdown-menu-con">
                         <Row type="flex" justify="end" align="middle" class="user-dropdown-innercon">

@@ -37,7 +37,6 @@ html,body{
     .layout-text{
         display: inline-block;
         white-space:nowrap;
-        position: absolute;
     }
     .main-hide-text .layout-text{
         display: none;
@@ -102,6 +101,15 @@ html,body{
         box-shadow: 0 2px 1px 1px rgba(100,100,100,.1);
         position: relative;
         z-index: 11;
+        .note-num{
+            font-size:18px;
+            display: inline-block;
+            position: absolute;
+            right: 200px;
+            top: 0;
+            height: 100%;
+            line-height: 60px;
+        }
         .navicon-con{
             margin: 6px;
             display: inline-block;
@@ -120,7 +128,7 @@ html,body{
             right: 0;
             top: 0;
             height: 100%;
-            width: 300px;
+            width: 150px;
             .switch-theme-con{
                 display: inline-block;
                 width: 40px;
@@ -198,8 +206,15 @@ html,body{
         background-color: #F0F0F0;
         z-index: 1;
         transition: left .3s;
+        box-sizing: border-box;
+        height: 100%;
+        padding:10px;
         .single-page{
-            margin: 10px;
+            height: 100%;
+            background: #fff;
+            -webkit-border-radius: 10px;
+            -moz-border-radius: 10px;
+            border-radius: 10px;
         }
     }
     &-copy{

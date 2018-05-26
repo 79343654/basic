@@ -43,45 +43,120 @@ export const otherRouter = {
     name: 'otherRouter',
     component: Main,
     children: [
-        { path: 'home', title: {i18n: 'home'}, name: 'home_index', component: resolve => { require(['@/views/home/home.vue'], resolve); } }
+        { path: 'home',
+          title: {i18n: 'home'},
+          name: 'home_index',
+          component: resolve => { require(['@/views/home/home.vue'], resolve); }
+        }
     ]
 };
 
 // 作为Main组件的子页面展示并且在左侧菜单显示的路由写在appRouter里
 export const appRouter = [
     {
-        path: '/group',
-        icon: 'ios-folder',
-        name: 'group',
-        title: 'Group',
+        path: '/online-watch',
+        name: 'online-watch',
+        title: '在线监控',
+        icon: 'ios-paper-outline',
         component: Main,
         children: [
             {
-                path: 'page1',
+                path: 'online-data',
+                name: 'online-data',
                 icon: 'ios-paper-outline',
-                name: 'page1',
-                title: 'Page1',
-                component: resolve => { require(['@/views/group/page1/page1.vue'], resolve); }
+                title: '实时数据',
+                component: resolve => { require(['@/views/group/online/online-data.vue'], resolve); }
             },
             {
-                path: 'page2',
-                icon: 'ios-list-outline',
-                name: 'page2',
-                title: 'Page2',
-                component: resolve => { require(['@/views/group/page2/page2.vue'], resolve); }
+                path: 'chart',
+                name: 'chart',
+                icon: 'ios-paper-outline',
+                title: '曲线图表',
+                component: resolve => { require(['@/views/group/online/chart.vue'], resolve); }
             }
         ]
     },
     {
-        path: '/page',
-        icon: 'ios-paper',
-        title: 'Page',
-        name: 'page',
+        path: '/data-info',
+        title: '数据信息',
+        name: 'data-info',
+        icon: 'ios-paper-outline',
         component: Main,
         children: [
-            { path: 'index', title: 'Page', name: 'page_index', component: resolve => { require(['@/views/page/page.vue'], resolve); } }
+            { path: 'history-data',
+              title: '历史数据',
+              icon: 'ios-paper-outline',
+              name: 'history-data',
+              component: resolve => { require(['@/views/group/data-info/history-data.vue'], resolve); }
+            },
+              { path: 'recorde',
+                title: '预警记录',
+                icon: 'ios-paper-outline',
+                name: 'recorde',
+                component: resolve => { require(['@/views/group/data-info/recorde.vue'], resolve); }
+              }
         ]
-    }
+    },
+      {
+        path: '/device-management',
+        title: '设备管理',
+        name: 'device-management',
+        icon: 'ios-paper-outline',
+        component: Main,
+        children: [
+          { path: 'ios-paper-outline',
+            title: '设备添加分享',
+            icon: 'ios-paper-outline',
+            name: 'device-add',
+            component: resolve => { require(['@/views/group/device/device-add.vue'], resolve); }
+          },
+          { path: 'device-share',
+            title: '我分享的设备',
+            icon: 'ios-paper-outline',
+            name: 'device-share',
+            component: resolve => { require(['@/views/group/device/device-share.vue'], resolve); }
+          },
+          { path: 'share-to-me',
+            title: '分享给我的设备',
+            icon: 'ios-paper-outline',
+            name: 'share-to-me',
+            component: resolve => { require(['@/views/group/device/share-to-me.vue'], resolve); }
+          }
+        ]
+      },
+      {
+        path: '/user-management',
+        title: '用户管理',
+        name: 'user-management',
+        icon: 'ios-paper-outline',
+        component: Main,
+        children: [
+          { path: 'user-share',
+            title: '用户分享',
+            icon: 'ios-paper-outline',
+            name: 'user-share',
+            component: resolve => { require(['@/views/group/user-management/user-share.vue'], resolve); }
+          },
+          { path: 'add-new-service',
+            title: '增值服务',
+            icon: 'ios-paper-outline',
+            name: 'add-new-service',
+            component: resolve => { require(['@/views/group/user-management/add-new-service.vue'], resolve); }
+          },
+          { path: 'area-management',
+            title: '区域管理',
+            icon: 'ios-paper-outline',
+            name: 'area-management',
+            component: resolve => { require(['@/views/group/user-management/area-management.vue'], resolve); }
+          },
+          { path: 'user-info',
+            title: '个人信息',
+            icon: 'ios-paper-outline',
+            name: 'user-info',
+            component: resolve => { require(['@/views/group/user-management/user-info.vue'], resolve); }
+          }
+        ]
+      }
 ];
 
 // 所有上面定义的路由都要写在下面的routers里

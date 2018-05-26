@@ -9,14 +9,12 @@
             v-show="!shrink"
             :menu-theme="theme" 
             :menu-list="menuList" 
-            :open-names="openNames"
             @on-change="handleChange"
         ></sidebar-menu>
-        <sidebar-menu-shrink 
+        <sidebar-menu-shrink
             v-show="shrink"
-            :menu-theme="theme" 
-            :menu-list="menuList" 
-            :icon-color="shrinkIconColor"
+            :menu-theme="theme"
+            :menu-list="menuList"
             @on-change="handleChange"
         ></sidebar-menu-shrink>
     </div>
@@ -50,9 +48,6 @@ export default {
         },
         beforePush: {
             type: Function
-        },
-        openNames: {
-            type: Array
         }
     },
     computed: {

@@ -1,0 +1,1 @@
+<template>    <div>        <h1>area_management</h1>    </div></template><script>  export default {    name: 'area_management'  };</script>
