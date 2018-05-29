@@ -48,7 +48,7 @@ export default {
         },
         beforePush: {
             type: Function
-        }
+        },
     },
     computed: {
         bgColor () {

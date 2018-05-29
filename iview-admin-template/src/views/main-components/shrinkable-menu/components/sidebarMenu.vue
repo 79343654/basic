@@ -3,15 +3,15 @@
 </style>
 
 <template>
-    <Menu ref="sideMenu" active-name="$route.name"   :theme="menuTheme" width="auto" @on-select="changeMenu">
-        <template v-for="(item,index) in menuList">
-            <Submenu :name="item.name" :key="index">
+    <Menu ref="sideMenu" :active-name="activeName" :open-names="openNames" @on-open-change="openMenu" :theme="menuTheme" width="auto" @on-select="changeMenu">
+        <template v-for="item in menuList" v-if="menuList.length>0">
+            <Submenu name="1">
                 <template slot="title">
                     <span class="layout-text">{{ itemTitle(item) }}</span>
                 </template>
-                <template v-for="(child,childrenIndex) in item.children">
-                    <MenuItem :name="child.name" :key="childrenIndex">
-                        <span class="layout-text" :key="childrenIndex">{{ child.title }}</span>
+                <template v-for="child in item.children">
+                    <MenuItem :name="child.name" >
+                        <span class="layout-text" >{{ child.title }}</span>
                     </MenuItem>
                 </template>
             </Submenu>
@@ -24,7 +24,8 @@ export default {
     name: 'sidebarMenu',
     data(){
           return {
-            openNames:['']
+            activeName:'',
+            openNames:['1']
           }
     },
     props: {
@@ -35,7 +36,21 @@ export default {
             default: 'dark'
         }
     },
+      mounted(){
+        console.log(this.$route.name)
+        this.activeName = this.$route.name;
+      },
+      updated () {
+        this.$nextTick(() => {
+          if (this.$refs.sideMenu) {
+            this.$refs.sideMenu.updateOpened();
+          }
+        });
+      },
     methods: {
+        openMenu(it){
+            console.log(this.openNames)
+        },
         changeMenu (active) {
             this.$emit('on-change', active);
         },
@@ -46,14 +61,8 @@ export default {
                 return item.title;
             }
         }
-    },
-    updated () {
-        this.$nextTick(() => {
-            if (this.$refs.sideMenu) {
-                this.$refs.sideMenu.updateOpened();
-            }
-        });
     }
+
 
 };
 </script>
