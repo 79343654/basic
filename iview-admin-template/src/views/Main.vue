@@ -21,7 +21,8 @@
                             <Icon type="navicon" size="32"></Icon>
                         </Button>
                     </div>
-                    <span class="note-num">短信条数：90909</span>
+
+
                     <div class="header-avator-con">
                         <div class="user-dropdown-menu-con">
                             <Row type="flex" justify="end" align="middle" class="user-dropdown-innercon">
@@ -40,6 +41,15 @@
                                 <Avatar icon="person" style="background: #619fe7;margin-left:10px;"></Avatar>
                             </Row>
                         </div>
+                    </div>
+                    <div class="note-num">
+                        短信条数：90909
+                    </div>
+                    <div class="note-num">
+                        <ButtonGroup>
+                            <Button :type="language==0?'primary':'dashed'" @click="changeLan(0)">中文</Button>
+                            <Button :type="language==1?'primary':'dashed'" @click="changeLan(1)">English</Button>
+                        </ButtonGroup>
                     </div>
                 </div>
             </div>
@@ -62,7 +72,8 @@ export default {
     data () {
         return {
             shrink: false,
-            userName: '121212'
+            userName: '121212',
+            language:0
         };
     },
     computed: {
@@ -71,6 +82,9 @@ export default {
         }
     },
     methods: {
+          changeLan(it){
+              this.language = it
+          },
         init () {
             // this.userName = Cookies.get('user');
         },
