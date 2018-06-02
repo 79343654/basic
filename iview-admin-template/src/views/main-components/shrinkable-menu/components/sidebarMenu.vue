@@ -7,11 +7,11 @@
         <template v-for="item in menuList" v-if="menuList.length>0">
             <Submenu name="1">
                 <template slot="title">
-                    <span class="layout-text">{{ itemTitle(item) }}</span>
+                    <span class="layout-text">{{ language=='allForCn'?item.title:item.name }}</span>
                 </template>
                 <template v-for="child in item.children">
                     <MenuItem :name="child.name" >
-                        <span class="layout-text" >{{ child.title }}</span>
+                        <span class="layout-text" >{{ language=='allForCn'?child.title:child.name }}</span>
                     </MenuItem>
                 </template>
             </Submenu>
@@ -29,6 +29,7 @@ export default {
           }
     },
     props: {
+        language:String,
         menuList: Array,
         iconSize: Number,
         menuTheme: {

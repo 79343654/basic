@@ -7,16 +7,17 @@
         <slot name="top"></slot>
         <sidebar-menu 
             v-show="!shrink"
+            :language = 'language'
             :menu-theme="theme" 
             :menu-list="menuList" 
             @on-change="handleChange"
         ></sidebar-menu>
-        <sidebar-menu-shrink
-            v-show="shrink"
-            :menu-theme="theme"
-            :menu-list="menuList"
-            @on-change="handleChange"
-        ></sidebar-menu-shrink>
+        <!--<sidebar-menu-shrink-->
+            <!--v-show="shrink"-->
+            <!--:menu-theme="theme"-->
+            <!--:menu-list="menuList"-->
+            <!--@on-change="handleChange"-->
+        <!--&gt;</sidebar-menu-shrink>-->
     </div>
 </template>
 
@@ -31,6 +32,10 @@ export default {
         sidebarMenuShrink
     },
     props: {
+          language:{
+            type: String,
+            default: 'allForCn'
+          },
         shrink: {
             type: Boolean,
             default: false
