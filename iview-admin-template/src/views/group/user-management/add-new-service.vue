@@ -1,1 +1,0 @@
-<template>    <div>        <h1>add_new_service</h1>    </div></template><script>  export default {    name: 'add_new_service'  };</script>
