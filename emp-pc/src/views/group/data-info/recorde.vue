@@ -1,0 +1,1 @@
+<template>    <div>        <h1>recorde</h1>    </div></template><script>  export default {    name: 'recorde'  };</script>

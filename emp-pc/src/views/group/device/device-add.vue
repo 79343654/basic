@@ -1,0 +1,1 @@
+<template>    <div>        <h1>device_add</h1>    </div></template><script>  export default {    name: 'device_add'  };</script>

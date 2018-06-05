@@ -1,0 +1,1 @@
+<template>    <div>        <h1>user_share</h1>    </div></template><script>  export default {    name: 'user_share'  };</script>
