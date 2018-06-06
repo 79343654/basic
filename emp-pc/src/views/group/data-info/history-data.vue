@@ -34,6 +34,7 @@
                 <data-search></data-search>
                 <div class="device-table">
                     <div id="history-line"></div>
+
                 </div>
             </TabPane>
         </Tabs>
