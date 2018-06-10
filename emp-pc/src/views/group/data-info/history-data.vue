@@ -5,14 +5,15 @@
         padding: 20px 0;
         box-sizing: border-box;
     }
-    .pages-wrapper{.device-table{
-        padding: 10px 0;
-        box-sizing: border-box;
-    }
+    .pages-wrapper {
+        .device-table{
+            padding: 10px 0;
+            box-sizing: border-box;
+        }
         padding: 20px 0;
         box-sizing: border-box;
         text-align: right;
-    }
+     }
     #history-line{
         width: 100%;
         height: 100%;
@@ -21,20 +22,19 @@
 <template>
     <div class="historyData">
         <Tabs value="name1">
-            <TabPane label="表格显示" name="name1">
+            <TabPane :label="lang.title[0]" name="name1">
                 <data-search></data-search>
                 <div class="device-table">
-                    <Table border :columns="columns1" :data="data1"></Table>
+                    <Table border :columns="columns" :data="data1"></Table>
                 </div>
                 <div class="pages-wrapper">
                     <Page :total="40" size="small" show-elevator show-sizer></Page>
                 </div>
             </TabPane>
-            <TabPane label="曲线图显示" name="name2">
+            <TabPane :label="lang.title[1]" name="name2">
                 <data-search></data-search>
                 <div class="device-table">
                     <div id="history-line"></div>
-
                 </div>
             </TabPane>
         </Tabs>
@@ -42,36 +42,39 @@
 </template>
 
 <script>
-    import dataSearch from "../components/data-search-wrapper"
+import dataSearch from "../components/data-search-wrapper"
 export default {
-    name: 'history_data',
+      name: 'history_data',
       components:{
         dataSearch
       },
-      data(){
-      return {
-        columns1: [
-          {
-            title: '设备名称',
-            key: 'deviceName'
-          },
-          {
-            title: '报警内容',
-            key: 'warningContent'
-          },
-          {
-            title: '短信通知',
-            key: 'shortNote'
-          },
-          {
-            title: '邮件通知',
-            key: 'emailNotification'
-          },
-          {
-            title: '记录时间',
-            key: 'writeTime'
+      computed: {
+        lang(){
+          if(this.$store.state.lang.is=='cn'){
+                this.columns = this.columns1
+          }else{
+            this.columns = this.columns2
           }
-        ],
+          return this.$store.state.lang.historyData
+        }
+      },
+      data(){
+        return {
+          columns:[],
+            columns1: [
+              {title: '设备名称', key: 'deviceName'},
+              {title: '报警内容', key: 'warningContent'},
+              {title: '短信通知', key: 'shortNote'},
+              {title: '邮件通知', key: 'emailNotification'},
+              {title: '记录时间', key: 'writeTime'}
+            ],
+          columns2:[
+            {title: 'device-name', key: 'deviceName'},
+            {title: 'warning-content', key: 'warningContent'},
+            {title: 'short-note', key: 'shortNote'},
+            {title: 'email-notification', key: 'emailNotification'},
+            {title: 'write-time', key: 'writeTime'}
+          ],
           data1: [
           {
             deviceName: 'John Brown',
