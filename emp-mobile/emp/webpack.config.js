@@ -1,7 +1,7 @@
-var path = require('path')
-var webpack = require('webpack')
-
-module.exports = {
+var path = require('path');
+var webpack = require('webpack');
+const vuxLoader = require('vux-loader');
+const webpackConfig = {
   entry: './src/main.js',
   output: {
     path: path.resolve(__dirname, './dist'),
@@ -85,7 +85,9 @@ module.exports = {
   },
   devtool: '#eval-source-map'
 }
-
+module.exports = vuxLoader.merge(webpackConfig, {
+  plugins: ['vux-ui']
+});
 if (process.env.NODE_ENV === 'production') {
   module.exports.devtool = '#source-map'
   // http://vue-loader.vuejs.org/en/workflow/production.html

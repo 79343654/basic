@@ -104,7 +104,7 @@ export const appRouter = [
         icon: 'ios-paper-outline',
         component: Main,
         children: [
-          { path: 'ios-paper-outline',
+          { path: 'device-add',
             title: '设备添加分享',
             icon: 'ios-paper-outline',
             name: 'device-add',

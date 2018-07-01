@@ -1,6 +1,6 @@
 {
-  "name": "zcw-mobile",
-  "description": "A Vue.js project",
+  "name": "emp",
+  "description": "emp",
   "version": "1.0.0",
   "author": "gemdale <303477418@qq.com>",
   "license": "MIT",
@@ -10,8 +10,10 @@
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
   },
   "dependencies": {
-    "mint-ui": "^2.2.13",
-    "vue": "^2.5.11"
+    "echart": "^0.1.3",
+    "vue": "^2.5.11",
+    "vue-router": "^3.0.1",
+    "vux-loader": "^1.2.9"
   },
   "browserslist": [
     "> 1%",
@@ -21,16 +23,18 @@
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
-    "babel-plugin-component": "^1.1.1",
     "babel-preset-env": "^1.6.0",
     "babel-preset-stage-3": "^6.24.1",
     "cross-env": "^5.0.5",
     "css-loader": "^0.28.7",
     "file-loader": "^1.1.4",
+    "less": "^3.0.4",
+    "less-loader": "^4.1.0",
     "node-sass": "^4.5.3",
     "sass-loader": "^6.0.6",
     "vue-loader": "^13.0.5",
     "vue-template-compiler": "^2.4.4",
+    "vux": "^2.9.2",
     "webpack": "^3.6.0",
     "webpack-dev-server": "^2.9.1"
   }
