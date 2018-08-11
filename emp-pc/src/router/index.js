@@ -5,6 +5,7 @@ import VueRouter from 'vue-router';
 import {routers} from './router';
 
 Vue.use(VueRouter);
+Vue.prototype.$util = Util
 
 // 路由配置
 const RouterConfig = {

@@ -2,7 +2,7 @@ import Main from '@/views/Main.vue';
 
 // 不作为Main组件的子页面展示的页面单独写，如下
 export const loginRouter = {
-    path: '/login',
+    path: '/',
     name: 'login',
     meta: {
         title: 'Login - 登录'
@@ -39,7 +39,7 @@ export const page500 = {
 
 // 作为Main组件的子页面展示但是不在左侧菜单显示的路由写在otherRouter里
 export const otherRouter = {
-    path: '/',
+    path: '/home',
     name: 'otherRouter',
     component: Main,
     children: [
@@ -61,8 +61,8 @@ export const appRouter = [
         component: Main,
         children: [
             {
-                path: 'online-data',
-                name: 'online-data',
+                path: 'online-data-1',
+                name: 'online-data-1',
                 icon: 'ios-paper-outline',
                 title: '实时数据',
                 component: resolve => { require(['@/views/group/online/online-data.vue'], resolve); }
@@ -75,6 +75,72 @@ export const appRouter = [
                 component: resolve => { require(['@/views/group/online/chart.vue'], resolve); }
             }
         ]
+    },
+  {
+    path: '/data-center',
+    name: 'data-center',
+    title: '数据中心',
+    icon: 'ios-paper-outline',
+    component: Main,
+    children: [
+      {
+        path: 'online-data',
+        name: 'online-data',
+        icon: 'ios-paper-outline',
+        title: '实时数据',
+        component: resolve => { require(['@/views/group/online/online-data.vue'], resolve); }
+      },
+      { path: 'history-data-1',
+        title: '历史数据',
+        icon: 'ios-paper-outline',
+        name: 'history-data-1',
+        component: resolve => { require(['@/views/group/data-info/history-data.vue'], resolve); }
+      },
+      { path: 'recorde',
+        title: '预警记录',
+        icon: 'ios-paper-outline',
+        name: 'recorde',
+        component: resolve => { require(['@/views/group/data-info/recorde.vue'], resolve); }
+      }
+    ]
+  },
+    {
+      path: '/customer',
+      name: 'customer',
+      title: '客户管理',
+      icon: 'ios-paper-outline',
+      component: Main,
+      children: [
+        {
+          path: 'customer-data',
+          name: 'customer-data',
+          icon: 'ios-paper-outline',
+          title: '客户管理',
+          redirect:"customer-data/customer-data-index",
+          component: resolve => { require(['@/views/group/customer-management/customer-index.vue'], resolve); },
+          children:[
+            {
+              path: 'customer-data-index',
+              name: 'customer-data-index',
+              icon: 'ios-paper-outline',
+              title: '客户管理',
+              component: resolve => { require(['@/views/group/customer-management/customer.vue'], resolve); }
+            },
+            { path: 'user-info-management',
+              title: '个人信息',
+              icon: 'ios-paper-outline',
+              name: 'user-info-management',
+              component: resolve => { require(['@/views/group/user-management/user-info.vue'], resolve); }
+            },
+            { path: 'add-new-service-management',
+              title: '增值服务',
+              icon: 'ios-paper-outline',
+              name: 'add-new-service-management',
+              component: resolve => { require(['@/views/group/user-management/add-new-service.vue'], resolve); }
+            },
+          ]
+        }
+      ]
     },
     {
         path: '/data-info',
@@ -89,13 +155,28 @@ export const appRouter = [
               name: 'history-data',
               component: resolve => { require(['@/views/group/data-info/history-data.vue'], resolve); }
             },
-              { path: 'recorde',
+              { path: 'recorde-1',
                 title: '预警记录',
                 icon: 'ios-paper-outline',
-                name: 'recorde',
+                name: 'recorde-1',
                 component: resolve => { require(['@/views/group/data-info/recorde.vue'], resolve); }
               }
         ]
+    },
+    {
+      path: '/device-management-1',
+      title: '设备管理',
+      name: 'device-management-1',
+      icon: 'ios-paper-outline',
+      component: Main,
+      children: [
+        { path: 'share-to-me-1',
+          title: '分享给我的设备',
+          icon: 'ios-paper-outline',
+          name: 'share-to-me-1',
+          component: resolve => { require(['@/views/group/device/share-to-me.vue'], resolve); }
+        }
+      ]
     },
       {
         path: '/device-management',
@@ -124,6 +205,21 @@ export const appRouter = [
           }
         ]
       },
+    {
+      path: '/user-management-child',
+      title: '用户管理',
+      name: 'user-management-child',
+      icon: 'ios-paper-outline',
+      component: Main,
+      children: [
+        { path: 'user-info',
+          title: '个人信息',
+          icon: 'ios-paper-outline',
+          name: 'user-info',
+          component: resolve => { require(['@/views/group/user-management/user-info.vue'], resolve); }
+        }
+      ]
+    },
       {
         path: '/user-management',
         title: '用户管理',
@@ -132,7 +228,7 @@ export const appRouter = [
         component: Main,
         children: [
           { path: 'user-share',
-            title: '用户分享',
+            title: '用户分配',
             icon: 'ios-paper-outline',
             name: 'user-share',
             component: resolve => { require(['@/views/group/user-management/user-share.vue'], resolve); }
@@ -149,10 +245,10 @@ export const appRouter = [
             name: 'area-management',
             component: resolve => { require(['@/views/group/user-management/area-management.vue'], resolve); }
           },
-          { path: 'user-info',
+          { path: 'user-info-1',
             title: '个人信息',
             icon: 'ios-paper-outline',
-            name: 'user-info',
+            name: 'user-info-1',
             component: resolve => { require(['@/views/group/user-management/user-info.vue'], resolve); }
           }
         ]

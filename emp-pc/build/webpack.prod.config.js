@@ -16,17 +16,17 @@ fs.open('./build/env.js', 'w', function(err, fd) {
 
 module.exports = merge(webpackBaseConfig, {
     output: {
-        publicPath: 'https://iview.github.io/iview-admin/dist/',
+        publicPath: './dist/',
         filename: '[name].[hash].js',
         chunkFilename: '[name].[hash].chunk.js'
     },
     plugins: [
         new cleanWebpackPlugin(['dist/*'], {
-            root: path.resolve(__dirname, '../')
+            root: path.resolve(__dirname, './')
         }),
         new ExtractTextPlugin({
             filename: '[name].[hash].css',
-            allChunks: true
+            allChunks: false
         }),
         new webpack.optimize.CommonsChunkPlugin({
             name: ['vender-exten', 'vender-base'],
@@ -43,7 +43,7 @@ module.exports = merge(webpackBaseConfig, {
             }
         }),
         new HtmlWebpackPlugin({
-            title: '环境监控平台',
+            title: '环境监控平台' + package.version,
             favicon: './td_icon.ico',
             filename: '../index.html',
             template: './src/template/index.ejs',

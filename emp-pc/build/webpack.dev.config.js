@@ -14,6 +14,11 @@ fs.open('./build/env.js', 'w', function(err, fd) {
 
 module.exports = merge(webpackBaseConfig, {
     devtool: '#source-map',
+    // devServer: {
+    //     host: '10.243.27.100',
+    //     inline: true,
+    //     port: 8888
+    // },
     output: {
         publicPath: '/dist/',
         filename: '[name].js',
@@ -29,7 +34,7 @@ module.exports = merge(webpackBaseConfig, {
             minChunks: Infinity
         }),
         new HtmlWebpackPlugin({
-            title: '环境监控平台',
+            title: 'enjoylink' + package.version,
             filename: '../index.html',
             template: './src/template/index.ejs',
             inject: false

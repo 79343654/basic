@@ -1,0 +1,1 @@
+<template>    <div class="customer-index">        <router-view></router-view>    </div></template><script>    export default{      name:'customer-index'    }</script>

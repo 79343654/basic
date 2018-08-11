@@ -11,7 +11,7 @@ Vue.use(Vuex);
 
 const state  ={
     lang:allForCn
-}
+};
 const store = new Vuex.Store({
     state,
     mutations: {
@@ -19,7 +19,7 @@ const store = new Vuex.Store({
       TOLANG(state,value) {
         if(value=='allForCn'){
           state.lang = allForCn;
-        }else if(value=='allForEn'){
+        }else if(value=='allForEn'){user-info
           state.lang = allForEn;
         }
       }

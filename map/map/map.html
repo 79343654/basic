@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<style type="text/css">
+	body, html,#allmap {width: 80%;height: 80%;overflow: hidden;margin:0;font-family:"微软雅黑";}
+	</style>
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=1biEOyNRdncX1027yae7mUNqgB9zbUx9"></script>
+	<script src="../webjars/jquery/3.1.0/jquery.js"></script>
+	<script src="./map.js"></script>
+	<title>地图展示</title>
+</head>
+<body>
+	<div id="allmap"></div>
+	<input  name="deviceName" id="deviceName"/> 
+	 <button onclick="getDeviceGps()">搜索</button>
+	 <input hidden="true" name="sn" id="sn"/> 
+</body>
+</html>

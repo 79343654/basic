@@ -14,12 +14,12 @@
       </tab>
     </div>
     <div class="table-wrapper">
-      <info v-show="itemIndex==0"></info>
-      <datas v-show="itemIndex==1"></datas>
-      <chart v-show="itemIndex==2"></chart>
-      <alarm v-show="itemIndex==3"></alarm>
-      <setup v-show="itemIndex==4"></setup>
-      <trail v-show="itemIndex==5"></trail>
+      <info v-if="itemIndex==0" :basic="basic"></info>
+      <datas v-if="itemIndex==1" :basic="basic"></datas>
+      <chart v-if="itemIndex==2" :basic="basic"></chart>
+      <alarm v-if="itemIndex==3" :basic="basic"></alarm>
+      <setup v-if="itemIndex==4&&basic.permissions!=3" :basic="basic"></setup>
+      <trail v-if="itemIndex==5" :basic="basic"></trail>
     </div>
   </div>
 </template>
@@ -46,10 +46,43 @@
     },
     data(){
      return {
-       itemIndex:0
+       itemIndex:0,
+       basic:{
+         userId:1,
+         loginType:2,
+         sn:'',
+         accessToken:'',
+         permissions:2,
+       }
      }
     },
+    beforeMount(){
+        this.getBasicInfo();
+
+    },
     methods:{
+      getUrl(para,url){
+        var paraArr = url.split('?')[1].replace("#/",'').split('&');
+        for(var i = 0;i < paraArr.length;i++){
+          if(para == paraArr[i].split('=')[0]){
+            return paraArr[i].split('=')[1];
+          }
+        }
+        return '';
+      },
+     getBasicInfo(){
+        let url = window.location.href;
+        // let url = 'http://120.79.239.247:8080/monitoring/phone/index.html#/?userId=1&loginType=2&accessToken=671a3d42d6f94274883166ccdc02016f&permissions=2&sn=C00711223301#/'
+         this.basic = {
+             userId:this.getUrl('userId',url)*1,
+             loginType:this.getUrl('loginType',url)*1,
+             sn:this.getUrl('sn',url),
+             accessToken:this.getUrl('accessToken',url),
+             permissions:this.getUrl('permissions',url)*1
+         }
+         // console.log(this.basic)
+         // alert(JSON.stringify(this.basic))
+     },
       onItemClick(){
         console.log(this.itemIndex)
       }

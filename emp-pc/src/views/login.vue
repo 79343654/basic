@@ -3,7 +3,7 @@
 </style>
 
 <template>
-    <div class="login" @keydown.enter="handleSubmit">
+    <div class="login" @keyup.enter="handleSubmit">
         <div class="login-con">
             <!--登录-->
             <Card :bordered="false" v-show="cardShow==0">
@@ -12,16 +12,16 @@
                     欢迎登录
                 </p>
                 <div class="form-con" >
-                    <Form ref="loginForm" :model="form" :rules="rules">
+                    <Form ref="loginForm" :model="loginForm" :rules="rules">
                         <FormItem prop="userName">
-                            <Input v-model="form.userName" placeholder="请输入用户名">
+                            <Input v-model="loginForm.userName" placeholder="请输入用户名或手机号">
                             <span slot="prepend">
                                     <Icon :size="16" type="person"></Icon>
                                 </span>
                             </Input>
                         </FormItem>
                         <FormItem prop="password">
-                            <Input type="password" v-model="form.password" placeholder="请输入密码">
+                            <Input type="password" v-model="loginForm.password" placeholder="请输入密码">
                             <span slot="prepend">
                                     <Icon :size="14" type="locked"></Icon>
                                 </span>
@@ -29,91 +29,89 @@
                         </FormItem>
                         <FormItem>
                             <div class="orther-control">
-                                <span @click="cardShow=1">忘记密码？</span><span @click="cardShow=3">新用户注册</span>
+                                <span @click="goChangeCtrol(1)">忘记密码？</span><span @click="goChangeCtrol(2)">新用户注册</span>
                             </div>
                         </FormItem>
                         <FormItem>
-                            <Button @click="handleSubmit" type="primary" long>登录</Button>
+                            <Button @click="loginIn" type="primary" long>登录</Button>
                             <Checkbox v-model="autoLogin">自动登录</Checkbox>
                         </FormItem>
                     </Form>
                 </div>
             </Card>
             <!--忘记密码-->
-            <Card :bordered="false" v-show="cardShow==1">
+            <Card :bordered="false" v-if="cardShow==1">
                 <p slot="title">
                     <Icon type="log-out"></Icon>
                     忘记密码
                     <span @click="cardShow=0" style="float: right;"><Icon type="arrow-left-c"></Icon></span>
                 </p>
                 <div class="form-con">
-                    <Form ref="loginForm" :model="form" :rules="rules">
+                    <Form ref="forgetForm" :model="forgetForm" :rules="rules">
                         <FormItem prop="userName">
-                            <Input v-model="form.userName" placeholder="请输入用户名">
-                            <span slot="prepend">
-                                  账号
-                            </span>
+                            <Input v-model="forgetForm.userName" placeholder="请输入用户名">
                             </Input>
                         </FormItem>
-                        <FormItem prop="password">
-                            <Input type="password" v-model="form.password" placeholder="请输入密码">
-                            <span slot="prepend">
-                                    验证码
-                                </span>
-                            <span slot="append">
-                                    获取验证码
+                        <FormItem prop="userPhone">
+                            <Input v-model="forgetForm.userPhone" :maxlength="11" placeholder="请输入手机号">
+                            </Input>
+                        </FormItem>
+                        <FormItem prop="passwordf">
+                            <Input type="text" v-model="forgetForm.passwordf" placeholder="请输入新密码">
+                            </Input>
+                        </FormItem>
+                        <FormItem prop="rePassword">
+                            <Input type="text" v-model="forgetForm.rePassword" placeholder="请再次输入新密码">
+                            </Input>
+                        </FormItem>
+                        <FormItem prop="verifyCode">
+                            <Input type="password" :maxlength='5' v-model="forgetForm.verifyCode" placeholder="请输入验证码">
+                                <span slot="append" id="v_container" style="cursor: pointer">
+                                    <Button type="primary" size="small" @click="getCode('forgetForm')" :disabled="canNotGetCode">{{codeText}}</Button>
                                 </span>
                             </Input>
                         </FormItem>
                         <FormItem>
-                            <Button @click="handleSubmit" type="primary" long>找回密码</Button>
+                            <Button @click="findPsd" type="primary" long>找回密码</Button>
                         </FormItem>
                     </Form>
                 </div>
 
             </Card>
             <!--新用户注册-->
-            <Card :bordered="false" v-show="cardShow==3">
+            <Card :bordered="false" v-if="cardShow==2">
                 <p slot="title">
                     <Icon type="log-out"></Icon>
                     新用户注册
                     <span @click="cardShow=0" style="float: right;"><Icon type="arrow-left-c"></Icon></span>
                 </p>
                 <div class="form-con">
-                    <Form ref="loginForm" :model="form" :rules="rules">
+                    <Form ref="registerForm" :model="registerForm" :rules="rules">
                         <FormItem prop="userName">
-                            <Input v-model="form.userName" placeholder="请输入用户名">
-                            <span slot="prepend">
-                                  账号
+                            <Input v-model="registerForm.userName" placeholder="请输入用户名">
+                            </Input>
+                        </FormItem>
+                        <FormItem prop="userPhone">
+                            <Input v-model="registerForm.userPhone" :maxlength="11" placeholder="请输入手机号">
+                            </Input>
+                        </FormItem>
+                        <FormItem prop="password">
+                            <Input type="text" v-model="registerForm.password" placeholder="请输入密码">
+                            </Input>
+                        </FormItem>
+                        <FormItem prop="rePassword">
+                            <Input type="text" v-model="registerForm.rePassword" placeholder="请输入密码">
+                            </Input>
+                        </FormItem>
+                        <FormItem prop="verifyCode">
+                            <Input type="password" :maxlength='5' v-model="registerForm.verifyCode" placeholder="请输入验证码">
+                            <span slot="append" id="v_container" style="cursor: pointer">
+                                <Button type="primary" size="small" @click="getCode('registerForm')" :disabled="canNotGetCode">{{codeText}}</Button>
                             </span>
                             </Input>
                         </FormItem>
-                        <FormItem prop="password">
-                            <Input type="text" v-model="form.password" placeholder="请输入密码">
-                                <span slot="prepend">
-                                       输入密码
-                                </span>
-                            </Input>
-                        </FormItem>
-                        <FormItem prop="password">
-                            <Input type="text" v-model="form.password" placeholder="请输入密码">
-                            <span slot="prepend">
-                                    再次输入密码
-                                </span>
-                            </Input>
-                        </FormItem>
-                        <FormItem prop="password">
-                            <Input type="password" v-model="form.password" placeholder="请输入密码">
-                            <span slot="prepend">
-                                    验证码
-                                </span>
-                            <span slot="append">
-                                    获取验证码
-                                </span>
-                            </Input>
-                        </FormItem>
                         <FormItem>
-                            <Button @click="handleSubmit" type="primary" long>注册</Button>
+                            <Button @click="registerAccount" type="primary" long>注册</Button>
                         </FormItem>
                     </Form>
                 </div>
@@ -125,33 +123,327 @@
 
 <script>
 import Cookies from 'js-cookie';
+import verifyCode from '../libs/verifyCode';
+import {mapState, mapMutations} from 'vuex';
 export default {
     data () {
+      const validateAccount = (rule, value, callback) => {
+        var reg = /^(?![^a-zA-Z]+$)(?!\D+$)/;
+        var reg1 = /^[a-zA-Z]+$/;
+        var reg2 = /^[0-9]*$/;
+        if (value === '') {
+          callback(new Error('账号输入不能为空'));
+        } else {
+          if (reg.test(value)||reg1.test(value)||reg2.test(value)) {
+            callback();
+          }else{
+            callback(new Error('账号格式不正确'));
+          }
+
+        }
+      };
+
+      const validatePhone = (rule, value, callback) => {
+        var reg=/^[1][3,4,5,7,8][0-9]{9}$/;
+        if (value === '') {
+          callback(new Error('手机号码不能为空'));
+        } else {
+          if (reg.test(value)) {
+            callback();
+          }else{
+            callback(new Error('手机号码输入不正确'));
+          }
+        }
+      };
+
+      const validatePsd = (rule, value, callback) => {
+        var reg = /^[0-9a-zA-Z]{6,}$/;
+        if (value === '') {
+          callback(new Error('密码不能为空'));
+        } else {
+          if (reg.test(value)) {
+            callback();
+          }else{
+            callback(new Error('密码为中英文组成，至少6位'));
+          }
+        }
+      };
+
+      const validatePass = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请再次输入密码'));
+        } else {
+          if (this.registerForm.password != value) {
+            callback(new Error('两次密码输入不一致'));
+          }else{
+            callback();
+          }
+
+        }
+      };
+      const validatePassf = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请再次输入密码'));
+        } else {
+          if (this.forgetForm.password != value) {
+            callback(new Error('两次密码输入不一致'));
+          }else{
+            callback();
+          }
+
+        }
+      };
+      const validatCode = (rule, value, callback) => {
+        var reg = /^[0-9]{6}$/;
+        if (value === '') {
+          callback(new Error('请输入验证码'));
+        } else {
+          if (reg.test(value)) {
+            callback(new Error('验证码输入不正确'));
+          }else{
+            callback();
+          }
+
+        }
+      };
+
         return {
-            autoLogin:false,
-            cardShow:0,
-            form: {
+          countdown:0,
+          canNotGetCode:false,
+          codeText:'获取验证码',
+          verifyCode:null,
+          autoLogin:false,
+          cardShow:0,
+          loginForm: {
                 userName: '',
                 password: ''
             },
-            rules: {
+          forgetForm:{
+            userName:'',
+            userPhone:'',
+            passwordf:'',
+            rePassword:'',
+            verifyCode:''
+          },
+          registerForm:{
+                userName:'',
+                userPhone:'',
+                password:'',
+                rePassword:'',
+                verifyCode:''
+          },
+         rules: {
                 userName: [
-                    { required: true, message: '账号不能为空', trigger: 'blur' }
+                    { validator: validateAccount, trigger: 'blur' }
                 ],
-                password: [
-                    { required: true, message: '密码不能为空', trigger: 'blur' }
-                ]
-            }
+                userPhone: [
+                    { validator: validatePhone, trigger: 'blur' }
+                  ],
+                  password: [
+                        { validator: validatePsd, trigger: 'blur' }
+                      ],
+                   passwordf: [
+                     { validator: validatePsd, trigger: 'blur' }
+                   ],
+                  rePassword: [
+                        { validator: validatePassf, trigger: 'blur' }
+                      ],
+                  verifyCode: [
+                        { validator: validatCode, trigger: 'blur' }
+                    ]
+            },
+          countdown:0,
+          canNotGetCode:false,
+          codeText:'获取验证码'
+
         };
     },
+  mounted(){
+      let user = Cookies.get('user');
+        if(user){
+            this.autoLogin = true;
+            this.loginForm = JSON.parse(user);
+        }else{
+          this.autoLogin = false;
+        }
+  },
+  watch:{
+    cardShow(){
+     this.registerForm.userName = this.forgetForm.userName = this.loginForm.userName;
+    }
+  },
     methods: {
-        handleSubmit () {
+      ...mapMutations(['setData']),
+      settime() {
+        const _this = this;
+        if (this.countdown == 0) {
+          this.canNotGetCode = false;
+          this.codeText = '获取验证码';
+          this.countdown = 0;
+        } else {
+          this.canNotGetCode = true;
+          this.codeText = this.countdown + 's后获取验证码';
+          this.countdown--;
+        };
+        setTimeout(function() {
+          _this.settime()
+        },1000)
+      },
+      //获取验证码
+      getCode(name){
+        this.$refs[name].validate((valid) => {
+          if (valid) {
+            if (!this.canNotGetCode) {
+              this.settime()
+            } else {
+               return
+            };
+            let userId = this.$cookie.get('userId');
+            let accessToken = this.$cookie.get('accessToken');
+            let permissions = this.$cookie.get('permissions');
+            let data = {
+              phone: this.registerForm.userPhone,
+              bizCode: 3,
+              userId: userId,
+              loginType: 2,
+              accessToken: accessToken,
+              permissions: permissions
+            };
+            this.$http({
+              method: 'post',
+              url: this.$util.ajaxUrl + "/public/sendVcode",
+              data
+            }, (res) => {
+              if (res.data.code == 0) {
+                this.$Message.success("验证码获取成功")
+              } else {
+                this.$Message.error(res.data.msg)
+              }
+            }, (erro) => {
+              console.log(erro);
+            })
+          }
+        })
+      },
+      /*提交enter*/
+      handleSubmit(){
+        if(this.cardShow == 0){
+          this.loginIn()
+        }else if(this.cardShow == 1){
+            this.registerAccount()
+        }else if(this.cardShow == 2){
+          this.findPsd()
+        }
+      },
+      /*改变操作面板*/
+      goChangeCtrol(it){
+        //cardShow为0登陆1为注册2为忘记密码
+        this.cardShow = it
+      },
+      /*找回密码*/
+      findPsd () {
+        let data = {
+          account:this.forgetForm.userName,
+          phone:this.forgetForm.userPhone,
+          pwd:this.forgetForm.password,
+          vcode:this.forgetForm.verifyCode,
+          bizCode:1,
+          systemVersion:'PC',
+          loginType:2
+        };
+        this.$refs.forgetForm.validate((valid) => {
+          if (valid) {
+            this.$http({
+              method:'post',
+              url:this.$util.ajaxUrl+"/user/register",
+              data
+            },(res)=>{
+              if(res.data.code==0){
+                this.cardShow = 0;
+                this.$Message.success("密码找回成功")
+              }else{
+                this.$Message.error(res.data.msg)
+              }
+            },(erro)=>{
+              console.log(erro)
+            })
+          }
+        });
+      },
+      /*注册*/
+      registerAccount(){
+        let data = {
+          account:this.registerForm.userName,
+          phone:this.registerForm.userPhone,
+          pwd:this.registerForm.password,
+          vcode:this.registerForm.verifyCode,
+          bizCode:1,
+          systemVersion:'PC',
+          loginType:2
+        };
+        this.$refs.registerForm.validate((valid) => {
+          if (valid) {
+            this.$http({
+              method:'post',
+              url:this.$util.ajaxUrl+"/user/register",
+              data
+            },(res)=>{
+              if(res.data.code=='0'){
+                this.$Message.success("注册成功");
+              }else{
+                this.$Message.error(res.data.msg);
+              }
+            },(erro)=>{
+              console.log(erro)
+            })
+
+          }
+        });
+      },
+      /*登陆*/
+        loginIn () {
+            let data = {
+              account:this.loginForm.userName,
+              pwd:this.loginForm.password,
+              systemVersion:'PC',
+              loginType:2
+            };
             this.$refs.loginForm.validate((valid) => {
                 if (valid) {
-                    Cookies.set('user', this.form.userName);
-                    this.$router.push({
-                        name: 'home_index'
-                    });
+                    this.$http({
+                        method:'post',
+                        url:this.$util.ajaxUrl+"/user/login",
+                        data
+                    },(res)=>{
+                      let result = res.data.data;
+                      if(res.data.code=='0'){
+                        if(this.autoLogin){
+                          Cookies.set('user', this.loginForm);
+                        }else{
+                          Cookies.set('user', {});
+                        };
+                        this.$Message.success("登陆成功");
+                        Cookies.set('accessToken', result.accessToken);
+                        Cookies.set('permissions', result.permissions);
+                        Cookies.set('userId', result.userId);
+                        Cookies.set('account', result.account);
+                        Cookies.set('msgNum', result.msgNum);
+                        this.$router.replace({
+                          name: 'home_index',
+                          query:{
+                            account:result.account,
+                            msgNum:result.msgNum,
+                            userId:result.userId,
+                            permissions:result.permissions
+                          }
+                        });
+                      }else{
+                        this.$Message.error(res.data.msg);
+                      }
+                    },(erro)=>{
+                      console.log(erro)
+                    })
+
                 }
             });
         }

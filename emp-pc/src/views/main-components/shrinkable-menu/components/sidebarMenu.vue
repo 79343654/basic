@@ -38,7 +38,6 @@ export default {
         }
     },
       mounted(){
-        console.log(this.$route.name)
         this.activeName = this.$route.name;
       },
       updated () {

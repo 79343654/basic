@@ -2,6 +2,7 @@
     .device-table{
         width: 100%;
         height: 100%;
+        min-height: 320px;
         padding: 20px 0;
         box-sizing: border-box;
     }
@@ -21,18 +22,19 @@
 </style>
 <template>
     <div class="historyData">
-        <Tabs value="name1">
+        <Tabs v-model="tabName" >
             <TabPane :label="lang.title[0]" name="name1">
-                <data-search></data-search>
+                <data-search v-if="tabName=='name1'" @initPage="initPage" :tableListPage="tableListPage" :tabName="tabName" @getList = 'getList'></data-search>
                 <div class="device-table">
-                    <Table border :columns="columns" :data="data1"></Table>
+                    <Table border :columns="columns" :data="accountListTable"></Table>
+                    <div class="pages-wrapper">
+                        <Page :total="totalPage"  :page-size = "15" :current="tableListPage+1" @on-change="changePage"></Page>
+                    </div>
                 </div>
-                <div class="pages-wrapper">
-                    <Page :total="40" size="small" show-elevator show-sizer></Page>
-                </div>
+
             </TabPane>
             <TabPane :label="lang.title[1]" name="name2">
-                <data-search></data-search>
+                <data-search  v-if="tabName=='name2'"  @initPage="initPage" :tableListPage="tableListPage" :tabName="tabName" @getList = 'getList'></data-search>
                 <div class="device-table">
                     <div id="history-line"></div>
                 </div>
@@ -51,7 +53,7 @@ export default {
       computed: {
         lang(){
           if(this.$store.state.lang.is=='cn'){
-                this.columns = this.columns1
+            this.columns = this.columns1
           }else{
             this.columns = this.columns2
           }
@@ -60,54 +62,61 @@ export default {
       },
       data(){
         return {
+          tabName:'name1',
+          totalPage:0,
+          tableListPage:0,
           columns:[],
             columns1: [
               {title: '设备名称', key: 'deviceName'},
-              {title: '报警内容', key: 'warningContent'},
-              {title: '短信通知', key: 'shortNote'},
-              {title: '邮件通知', key: 'emailNotification'},
-              {title: '记录时间', key: 'writeTime'}
+              {title: '设备SN', key: 'sn'},
+              {title: '设备温度', key: 'temperature'},
+              {title: '设备湿度', key: 'humidity'},
+              {title: '记录时间', key: 'date'},
             ],
           columns2:[
-            {title: 'device-name', key: 'deviceName'},
-            {title: 'warning-content', key: 'warningContent'},
-            {title: 'short-note', key: 'shortNote'},
-            {title: 'email-notification', key: 'emailNotification'},
-            {title: 'write-time', key: 'writeTime'}
+            {title: '设备名称', key: 'deviceName'},
+            {title: '设备SN', key: 'sn'},
+            {title: '设备温度', key: 'temperature'},
+            {title: '设备湿度', key: 'humidity'},
+            {title: '记录时间', key: 'date'},
+            {title: '记录时间', key: 'writeTime'}
           ],
-          data1: [
-          {
-            deviceName: 'John Brown',
-            warningContent: 18,
-            shortNote: 'N1243142k',
-            emailNotification: '1234124',
-            writeTime:'201094'
-          },
-            {
-              deviceName: 'Jo124hn Brown',
-              warningContent: 12418,
-              shortNote: '1245143142k',
-              emailNotification: '437474',
-              writeTime:'152524'
-            },
-        ]
+          accountListTable: [],
+          accountListChart:[]
       }
   },
   mounted(){
-      this.drawChart()
+
   },
   methods:{
+    initPage(it){
+      this.tableListPage = it
+    },
+    /*切换页码*/
+    changePage(it){
+      this.tableListPage = it-1
+    },
+    /*搜索*/
+    getList(it){
+      if(this.tabName=='name1'){
+        this.accountListTable = it.dataList;
+        this.totalPage = it.count
+      }else{
+        this.accountListChart = it;
+        this.drawChart()
+      }
+    },
     drawChart(){
       let chart = this.$echarts.init(document.getElementById("history-line"))
       let options = {
         title: {
-          text: '折线图堆叠'
+          text: ''
         },
         tooltip: {
           trigger: 'axis'
         },
         legend: {
-          data:['邮件营销','联盟广告','视频广告','直接访问','搜索引擎']
+          data:['温度','湿度']
         },
         grid: {
           left: '3%',
@@ -117,48 +126,33 @@ export default {
         },
         toolbox: {
           feature: {
-            saveAsImage: {}
+            saveAsImage: {
+              type:'png',
+              name:'历史数据曲线图'
+            }
           }
         },
         xAxis: {
           type: 'category',
           boundaryGap: false,
-          data: ['周一','周二','周三','周四','周五','周六','周日']
+          data: this.accountListChart.dateList
         },
         yAxis: {
           type: 'value'
         },
         series: [
           {
-            name:'邮件营销',
+            name:'温度',
             type:'line',
             stack: '总量',
-            data:[120, 132, 101, 134, 90, 230, 210]
+            data:this.accountListChart.humidityList
           },
           {
-            name:'联盟广告',
+            name:'湿度',
             type:'line',
             stack: '总量',
-            data:[220, 182, 191, 234, 290, 330, 310]
+            data:this.accountListChart.temperatureList
           },
-          {
-            name:'视频广告',
-            type:'line',
-            stack: '总量',
-            data:[150, 232, 201, 154, 190, 330, 410]
-          },
-          {
-            name:'直接访问',
-            type:'line',
-            stack: '总量',
-            data:[320, 332, 301, 334, 390, 330, 320]
-          },
-          {
-            name:'搜索引擎',
-            type:'line',
-            stack: '总量',
-            data:[820, 932, 901, 934, 1290, 1330, 1320]
-          }
         ]
       };
       chart.setOption(options);
