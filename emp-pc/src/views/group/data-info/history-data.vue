@@ -24,14 +24,13 @@
     <div class="historyData">
         <Tabs v-model="tabName" >
             <TabPane :label="lang.title[0]" name="name1">
-                <data-search v-if="tabName=='name1'" @initPage="initPage" :tableListPage="tableListPage" :tabName="tabName" @getList = 'getList'></data-search>
+                <data-search :special="special" v-if="tabName=='name1'" @initPage="initPage" :tableListPage="tableListPage" :tabName="tabName" @getList = 'getList'></data-search>
                 <div class="device-table">
-                    <Table border :columns="columns" :data="accountListTable"></Table>
+                    <Table :highlight-row="true" @on-row-click="specialSelect" border :columns="columns" :data="accountListTable"></Table>
                     <div class="pages-wrapper">
                         <Page :total="totalPage"  :page-size = "15" :current="tableListPage+1" @on-change="changePage"></Page>
                     </div>
                 </div>
-
             </TabPane>
             <TabPane :label="lang.title[1]" name="name2">
                 <data-search  v-if="tabName=='name2'"  @initPage="initPage" :tableListPage="tableListPage" :tabName="tabName" @getList = 'getList'></data-search>
@@ -65,6 +64,7 @@ export default {
           tabName:'name1',
           totalPage:0,
           tableListPage:0,
+          special:{},
           columns:[],
             columns1: [
               {title: '设备名称', key: 'deviceName'},
@@ -89,6 +89,10 @@ export default {
 
   },
   methods:{
+    specialSelect(it){
+     this.special = it;
+     console.log(it)
+    },
     initPage(it){
       this.tableListPage = it
     },

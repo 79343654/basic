@@ -19,7 +19,7 @@ const store = new Vuex.Store({
       TOLANG(state,value) {
         if(value=='allForCn'){
           state.lang = allForCn;
-        }else if(value=='allForEn'){user-info
+        }else if(value=='allForEn'){
           state.lang = allForEn;
         }
       }

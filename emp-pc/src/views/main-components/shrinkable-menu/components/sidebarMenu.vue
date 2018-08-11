@@ -20,6 +20,7 @@
 </template>
 
 <script>
+    var From;
 export default {
     name: 'sidebarMenu',
     data(){
@@ -37,10 +38,10 @@ export default {
             default: 'dark'
         }
     },
-      mounted(){
+    mounted(){
         this.activeName = this.$route.name;
       },
-      updated () {
+    updated () {
         this.$nextTick(() => {
           if (this.$refs.sideMenu) {
             this.$refs.sideMenu.updateOpened();

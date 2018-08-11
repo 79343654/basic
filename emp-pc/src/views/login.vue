@@ -49,22 +49,22 @@
                 <div class="form-con">
                     <Form ref="forgetForm" :model="forgetForm" :rules="rules">
                         <FormItem prop="userName">
-                            <Input v-model="forgetForm.userName" placeholder="请输入用户名">
+                            <Input v-model="forgetForm.userName" readonly placeholder="请输入用户名">
                             </Input>
                         </FormItem>
                         <FormItem prop="userPhone">
-                            <Input v-model="forgetForm.userPhone" :maxlength="11" placeholder="请输入手机号">
+                            <Input v-model="forgetForm.userPhone" readonly :maxlength="11" placeholder="请输入手机号">
                             </Input>
                         </FormItem>
                         <FormItem prop="passwordf">
                             <Input type="text" v-model="forgetForm.passwordf" placeholder="请输入新密码">
                             </Input>
                         </FormItem>
-                        <FormItem prop="rePassword">
-                            <Input type="text" v-model="forgetForm.rePassword" placeholder="请再次输入新密码">
+                        <FormItem prop="rePasswordf">
+                            <Input type="text" v-model="forgetForm.rePasswordf" placeholder="请再次输入新密码">
                             </Input>
                         </FormItem>
-                        <FormItem prop="verifyCode">
+                        <FormItem>
                             <Input type="password" :maxlength='5' v-model="forgetForm.verifyCode" placeholder="请输入验证码">
                                 <span slot="append" id="v_container" style="cursor: pointer">
                                     <Button type="primary" size="small" @click="getCode('forgetForm')" :disabled="canNotGetCode">{{codeText}}</Button>
@@ -103,7 +103,7 @@
                             <Input type="text" v-model="registerForm.rePassword" placeholder="请输入密码">
                             </Input>
                         </FormItem>
-                        <FormItem prop="verifyCode">
+                        <FormItem>
                             <Input type="password" :maxlength='5' v-model="registerForm.verifyCode" placeholder="请输入验证码">
                             <span slot="append" id="v_container" style="cursor: pointer">
                                 <Button type="primary" size="small" @click="getCode('registerForm')" :disabled="canNotGetCode">{{codeText}}</Button>
@@ -137,12 +137,10 @@ export default {
           if (reg.test(value)||reg1.test(value)||reg2.test(value)) {
             callback();
           }else{
-            callback(new Error('账号格式不正确'));
+            callback(new Error('账号可以为字母或数字或字母数字组成'));
           }
-
         }
       };
-
       const validatePhone = (rule, value, callback) => {
         var reg=/^[1][3,4,5,7,8][0-9]{9}$/;
         if (value === '') {
@@ -185,7 +183,7 @@ export default {
         if (value === '') {
           callback(new Error('请再次输入密码'));
         } else {
-          if (this.forgetForm.password != value) {
+          if (this.forgetForm.passwordf != value) {
             callback(new Error('两次密码输入不一致'));
           }else{
             callback();
@@ -222,15 +220,15 @@ export default {
             userName:'',
             userPhone:'',
             passwordf:'',
-            rePassword:'',
+            rePasswordf:'',
             verifyCode:''
           },
           registerForm:{
-                userName:'',
-                userPhone:'',
-                password:'',
-                rePassword:'',
-                verifyCode:''
+            userName:'',
+            userPhone:'',
+            password:'',
+            rePassword:'',
+            verifyCode:''
           },
          rules: {
                 userName: [
@@ -239,18 +237,21 @@ export default {
                 userPhone: [
                     { validator: validatePhone, trigger: 'blur' }
                   ],
-                  password: [
-                        { validator: validatePsd, trigger: 'blur' }
-                      ],
-                   passwordf: [
+                password: [
+                    { validator: validatePsd, trigger: 'blur' }
+                  ],
+                rePassword: [
+                     { validator: validatePass, trigger: 'blur' }
+                   ],
+                passwordf: [
                      { validator: validatePsd, trigger: 'blur' }
                    ],
-                  rePassword: [
-                        { validator: validatePassf, trigger: 'blur' }
-                      ],
-                  verifyCode: [
-                        { validator: validatCode, trigger: 'blur' }
-                    ]
+                rePasswordf:[
+                     { validator: validatePassf, trigger: 'blur' }
+                   ],
+                verifyCode: [
+                    { validator: validatCode, trigger: 'blur' }
+                ]
             },
           countdown:0,
           canNotGetCode:false,
@@ -266,11 +267,6 @@ export default {
         }else{
           this.autoLogin = false;
         }
-  },
-  watch:{
-    cardShow(){
-     this.registerForm.userName = this.forgetForm.userName = this.loginForm.userName;
-    }
   },
     methods: {
       ...mapMutations(['setData']),
@@ -296,7 +292,7 @@ export default {
             if (!this.canNotGetCode) {
               this.settime()
             } else {
-               return
+              return
             };
             let userId = this.$cookie.get('userId');
             let accessToken = this.$cookie.get('accessToken');
@@ -329,23 +325,53 @@ export default {
       handleSubmit(){
         if(this.cardShow == 0){
           this.loginIn()
-        }else if(this.cardShow == 1){
-            this.registerAccount()
         }else if(this.cardShow == 2){
+            this.registerAccount()
+        }else if(this.cardShow == 1){
           this.findPsd()
         }
       },
       /*改变操作面板*/
       goChangeCtrol(it){
-        //cardShow为0登陆1为注册2为忘记密码
-        this.cardShow = it
+        //cardShow为0登陆2为注册1为忘记密码
+        if(it==1){
+          if(this.loginForm.userName!==''){
+            this.cardShow = it
+            this.checkAccount()
+          }else{
+            this.$Message.error('请先输入用户名')
+          }
+        }else{
+          this.cardShow = it
+        }
+      },
+      //验证账户是否存在
+      checkAccount(){
+        let data = {
+          account:this.loginForm.userName
+        };
+        this.$http({
+          method:'post',
+          url:this.$util.ajaxUrl+"/user/checkAccount",
+          data
+        },(res)=>{
+          let result = res.data;
+          if(result.code==0){
+            this.forgetForm.userName = result.data.account;
+            this.forgetForm.userPhone = result.data.phone
+          }else{
+            this.$Message.error(res.data.msg)
+          }
+        },(erro)=>{
+          console.log(erro);
+        })
       },
       /*找回密码*/
       findPsd () {
         let data = {
           account:this.forgetForm.userName,
           phone:this.forgetForm.userPhone,
-          pwd:this.forgetForm.password,
+          pwd:this.forgetForm.passwordf,
           vcode:this.forgetForm.verifyCode,
           bizCode:1,
           systemVersion:'PC',
@@ -353,6 +379,10 @@ export default {
         };
         this.$refs.forgetForm.validate((valid) => {
           if (valid) {
+            if(this.forgetForm.verifyCode==''){
+              this.$Message.error('请输入验证码！');
+              return
+            };
             this.$http({
               method:'post',
               url:this.$util.ajaxUrl+"/user/register",
@@ -383,6 +413,10 @@ export default {
         };
         this.$refs.registerForm.validate((valid) => {
           if (valid) {
+            if(this.registerForm.verifyCode==''){
+              this.$Message.error('请输入验证码！');
+              return
+            };
             this.$http({
               method:'post',
               url:this.$util.ajaxUrl+"/user/register",
@@ -425,6 +459,7 @@ export default {
                         this.$Message.success("登陆成功");
                         Cookies.set('accessToken', result.accessToken);
                         Cookies.set('permissions', result.permissions);
+                        Cookies.set('companyName', result.name);
                         Cookies.set('userId', result.userId);
                         Cookies.set('account', result.account);
                         Cookies.set('msgNum', result.msgNum);

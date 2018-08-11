@@ -40,6 +40,7 @@
                         </Button>
                         <Button type="primary" v-if="permissions==1" @click="chooseUser=true">选中用户</Button>
                         <span  v-if="permissions==1">{{choosedUserInfo.name}}</span>
+                        <span>{{companyName}}</span>
                     </div>
                     <div class="header-avator-con">
                         <div class="user-dropdown-menu-con">
@@ -129,6 +130,7 @@ export default {
             userId:'',
             name:''
           },
+          companyName:'',
           chooseUser:false,
           totalPage:0,
           pageSize:10,
@@ -248,6 +250,7 @@ export default {
         this.msgNum =   Cookies.get('msgNum');
         this.userId =   Cookies.get('userId');
         this.accessToken =  Cookies.get('accessToken');
+        this.companyName = Cookies.get('companyName');
       },
     methods: {
       ...mapActions(['changeLanguage']),
