@@ -7,6 +7,7 @@
         <slot name="top"></slot>
         <sidebar-menu 
             v-show="!shrink"
+            :activeName = "activeName"
             :language = 'language'
             :menu-theme="theme" 
             :menu-list="menuList" 
@@ -32,6 +33,7 @@ export default {
         sidebarMenuShrink
     },
     props: {
+          activeName:String,
           language:{
             type: String,
             default: 'allForCn'

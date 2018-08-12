@@ -9,19 +9,19 @@
             <Card :bordered="false" v-show="cardShow==0">
                 <p slot="title">
                     <Icon type="log-in"></Icon>
-                    欢迎登录
+                    {{lang.hydl}}
                 </p>
                 <div class="form-con" >
                     <Form ref="loginForm" :model="loginForm" :rules="rules">
                         <FormItem prop="userName">
-                            <Input v-model="loginForm.userName" placeholder="请输入用户名或手机号">
+                            <Input v-model="loginForm.userName" :placeholder="lang.inAccountPhonePlaceHolder">
                             <span slot="prepend">
                                     <Icon :size="16" type="person"></Icon>
                                 </span>
                             </Input>
                         </FormItem>
                         <FormItem prop="password">
-                            <Input type="password" v-model="loginForm.password" placeholder="请输入密码">
+                            <Input type="password" v-model="loginForm.password" :placeholder="lang.inPasswordPlaceholder">
                             <span slot="prepend">
                                     <Icon :size="14" type="locked"></Icon>
                                 </span>
@@ -29,12 +29,18 @@
                         </FormItem>
                         <FormItem>
                             <div class="orther-control">
-                                <span @click="goChangeCtrol(1)">忘记密码？</span><span @click="goChangeCtrol(2)">新用户注册</span>
+                                <span @click="goChangeCtrol(1)">{{lang.wjmm}}?</span><span @click="goChangeCtrol(2)">{{lang.xyhzc}}</span>
                             </div>
                         </FormItem>
                         <FormItem>
-                            <Button @click="loginIn" type="primary" long>登录</Button>
-                            <Checkbox v-model="autoLogin">自动登录</Checkbox>
+                            <Button @click="loginIn" type="primary" long>{{lang.dl}}</Button>
+                            <Checkbox v-model="autoLogin">{{lang.zddl}}</Checkbox>
+                            <span style="float: right;display: inline-block">
+                                <ButtonGroup >
+                                    <Button size="small" :type="language=='allForCn'?'primary':'dashed'" @click="changeLang('allForCn')">中文</Button>
+                                    <Button size="small" :type="language=='allForEn'?'primary':'dashed'" @click="changeLang('allForEn')">English</Button>
+                                </ButtonGroup>
+                            </span>
                         </FormItem>
                     </Form>
                 </div>
@@ -43,36 +49,36 @@
             <Card :bordered="false" v-if="cardShow==1">
                 <p slot="title">
                     <Icon type="log-out"></Icon>
-                    忘记密码
+                    {{lang.wjmm}}
                     <span @click="cardShow=0" style="float: right;"><Icon type="arrow-left-c"></Icon></span>
                 </p>
                 <div class="form-con">
                     <Form ref="forgetForm" :model="forgetForm" :rules="rules">
                         <FormItem prop="userName">
-                            <Input v-model="forgetForm.userName" readonly placeholder="请输入用户名">
+                            <Input v-model="forgetForm.userName" readonly :placeholder="lang.inAccountPlaceHolder">
                             </Input>
                         </FormItem>
                         <FormItem prop="userPhone">
-                            <Input v-model="forgetForm.userPhone" readonly :maxlength="11" placeholder="请输入手机号">
+                            <Input v-model="forgetForm.userPhone" readonly :maxlength="11" :placeholder="lang.inPhonePlaceHolder">
                             </Input>
                         </FormItem>
                         <FormItem prop="passwordf">
-                            <Input type="text" v-model="forgetForm.passwordf" placeholder="请输入新密码">
+                            <Input type="text" v-model="forgetForm.passwordf" :placeholder="lang.inPasswordPlaceholder">
                             </Input>
                         </FormItem>
                         <FormItem prop="rePasswordf">
-                            <Input type="text" v-model="forgetForm.rePasswordf" placeholder="请再次输入新密码">
+                            <Input type="text" v-model="forgetForm.rePasswordf" :placeholder="lang.inPasswordRPlaceholder">
                             </Input>
                         </FormItem>
                         <FormItem>
-                            <Input type="password" :maxlength='5' v-model="forgetForm.verifyCode" placeholder="请输入验证码">
+                            <Input type="password" :maxlength='5' v-model="forgetForm.verifyCode" :placeholder="lang.inCodePlaceHolder">
                                 <span slot="append" id="v_container" style="cursor: pointer">
                                     <Button type="primary" size="small" @click="getCode('forgetForm')" :disabled="canNotGetCode">{{codeText}}</Button>
                                 </span>
                             </Input>
                         </FormItem>
                         <FormItem>
-                            <Button @click="findPsd" type="primary" long>找回密码</Button>
+                            <Button @click="findPsd" type="primary" long>{{lang.wjmm}}</Button>
                         </FormItem>
                     </Form>
                 </div>
@@ -82,36 +88,36 @@
             <Card :bordered="false" v-if="cardShow==2">
                 <p slot="title">
                     <Icon type="log-out"></Icon>
-                    新用户注册
+                    {{lang.xyhzc}}
                     <span @click="cardShow=0" style="float: right;"><Icon type="arrow-left-c"></Icon></span>
                 </p>
                 <div class="form-con">
                     <Form ref="registerForm" :model="registerForm" :rules="rules">
                         <FormItem prop="userName">
-                            <Input v-model="registerForm.userName" placeholder="请输入用户名">
+                            <Input v-model="registerForm.userName" :placeholder="lang.inAccountPlaceHolder">
                             </Input>
                         </FormItem>
                         <FormItem prop="userPhone">
-                            <Input v-model="registerForm.userPhone" :maxlength="11" placeholder="请输入手机号">
+                            <Input v-model="registerForm.userPhone" :maxlength="11" :placeholder="lang.inPhonePlaceHolder">
                             </Input>
                         </FormItem>
                         <FormItem prop="password">
-                            <Input type="text" v-model="registerForm.password" placeholder="请输入密码">
+                            <Input type="text" v-model="registerForm.password" :placeholder="lang.inPasswordPlaceholder">
                             </Input>
                         </FormItem>
                         <FormItem prop="rePassword">
-                            <Input type="text" v-model="registerForm.rePassword" placeholder="请输入密码">
+                            <Input type="text" v-model="registerForm.rePassword" :placeholder="lang.inPasswordRPlaceholder">
                             </Input>
                         </FormItem>
                         <FormItem>
-                            <Input type="password" :maxlength='5' v-model="registerForm.verifyCode" placeholder="请输入验证码">
+                            <Input type="password" :maxlength='5' v-model="registerForm.verifyCode" :placeholder="lang.inCodePlaceHolder">
                             <span slot="append" id="v_container" style="cursor: pointer">
                                 <Button type="primary" size="small" @click="getCode('registerForm')" :disabled="canNotGetCode">{{codeText}}</Button>
                             </span>
                             </Input>
                         </FormItem>
                         <FormItem>
-                            <Button @click="registerAccount" type="primary" long>注册</Button>
+                            <Button @click="registerAccount" type="primary" long>{{lang.zc}}</Button>
                         </FormItem>
                     </Form>
                 </div>
@@ -124,7 +130,7 @@
 <script>
 import Cookies from 'js-cookie';
 import verifyCode from '../libs/verifyCode';
-import {mapState, mapMutations} from 'vuex';
+import {mapState, mapMutations,mapActions} from 'vuex';
 export default {
     data () {
       const validateAccount = (rule, value, callback) => {
@@ -255,11 +261,14 @@ export default {
             },
           countdown:0,
           canNotGetCode:false,
+          language:'allForCn',
           codeText:'获取验证码'
-
         };
     },
   mounted(){
+        if(Cookies.get("language")){
+          this.language = Cookies.get("language")
+        };
       let user = Cookies.get('user');
         if(user){
             this.autoLogin = true;
@@ -268,8 +277,19 @@ export default {
           this.autoLogin = false;
         }
   },
+      computed: {
+        lang(){
+          return this.$store.state.lang.loginIn
+        }
+      },
     methods: {
       ...mapMutations(['setData']),
+      ...mapActions(['changeLanguage']),
+      changeLang(value){
+        this.language = value;
+        this.$store.dispatch("changeLanguage", value)
+        Cookies.set('language', value);
+      },
       settime() {
         const _this = this;
         if (this.countdown == 0) {
@@ -298,8 +318,8 @@ export default {
             let accessToken = this.$cookie.get('accessToken');
             let permissions = this.$cookie.get('permissions');
             let data = {
-              phone: this.registerForm.userPhone,
-              bizCode: 3,
+              phone: name=='registerForm'?this.registerForm.userPhone:this.forgetForm.userPhone,
+              bizCode: 2,
               userId: userId,
               loginType: 2,
               accessToken: accessToken,
@@ -335,8 +355,7 @@ export default {
       goChangeCtrol(it){
         //cardShow为0登陆2为注册1为忘记密码
         if(it==1){
-          if(this.loginForm.userName!==''){
-            this.cardShow = it
+          if(this.loginForm.userName!=undefined&&this.loginForm.userName!=''){
             this.checkAccount()
           }else{
             this.$Message.error('请先输入用户名')
@@ -357,6 +376,7 @@ export default {
         },(res)=>{
           let result = res.data;
           if(result.code==0){
+            this.cardShow = 1
             this.forgetForm.userName = result.data.account;
             this.forgetForm.userPhone = result.data.phone
           }else{
@@ -373,7 +393,7 @@ export default {
           phone:this.forgetForm.userPhone,
           pwd:this.forgetForm.passwordf,
           vcode:this.forgetForm.verifyCode,
-          bizCode:1,
+          bizCode:2,
           systemVersion:'PC',
           loginType:2
         };

@@ -25,12 +25,12 @@ export default {
     name: 'sidebarMenu',
     data(){
           return {
-            activeName:'',
             openNames:['1']
           }
     },
     props: {
         language:String,
+       activeName:String,
         menuList: Array,
         iconSize: Number,
         menuTheme: {
@@ -39,7 +39,7 @@ export default {
         }
     },
     mounted(){
-        this.activeName = this.$route.name;
+        // this.activeName = this.$route.name;
       },
     updated () {
         this.$nextTick(() => {

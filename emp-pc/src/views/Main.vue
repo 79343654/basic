@@ -20,9 +20,10 @@
             </div>
         </Modal>
         <div class="sidebar-menu-con" :style="{width: shrink?'60px':'200px', overflow: shrink ? 'visible' : 'auto'}">
-            <shrinkable-menu
-                    :language = 'language'
+            <shrinkable-menu :language = 'language'
                 :shrink="shrink"
+                     ref="sideMenu"
+                             :activeName="activeName"
                 :menu-list="menuList">
                 <div slot="top" class="logo-con">
                     <span>{{lang.systemName}}</span>
@@ -199,7 +200,8 @@ export default {
             userId:'',
           accessToken:'',
             userName: '',
-            language:'allForCn'
+            language:'allForCn',
+          activeName:''
         };
     },
     computed: {
@@ -242,6 +244,7 @@ export default {
         },
       },
       mounted(){
+      this.language = Cookies.get("language")
       if(Cookies.get('choosedUserInfo')!=undefined){
         this.choosedUserInfo = JSON.parse(Cookies.get('choosedUserInfo'));
       }
@@ -251,12 +254,29 @@ export default {
         this.userId =   Cookies.get('userId');
         this.accessToken =  Cookies.get('accessToken');
         this.companyName = Cookies.get('companyName');
+          this.handleChange()
       },
     methods: {
       ...mapActions(['changeLanguage']),
       changePage(it){
         this.currentPage = it-1;
         this.searchList(this.currentPage);
+      },
+      handleChange(){
+        if(this.$route.name=='home_index') {
+          if (this.permissions == '1') {
+            this.activeName = 'online-data'
+            this.$refs.sideMenu.handleChange('online-data')
+          } else if (this.permissions == '2') {
+            this.activeName = 'online-data-1'
+            this.$refs.sideMenu.handleChange('online-data-1')
+          } else if (this.permissions == '3') {
+            this.activeName = 'online-data-1'
+            this.$refs.sideMenu.handleChange('online-data-1')
+          }
+        }else{
+          this.activeName = this.$route.name
+        }
       },
       searchList(page){
         this.currentPage = page;
@@ -322,7 +342,8 @@ export default {
       },
         changeLang(value){
             this.language = value;
-            this.$store.dispatch("changeLanguage", value)
+            this.$store.dispatch("changeLanguage", value);
+          Cookies.set('language', value);
         },
       /*退出登陆*/
       loginOut(){
