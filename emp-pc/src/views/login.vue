@@ -112,7 +112,7 @@
                         <FormItem>
                             <Input type="password" :maxlength='5' v-model="registerForm.verifyCode" :placeholder="lang.inCodePlaceHolder">
                             <span slot="append" id="v_container" style="cursor: pointer">
-                                <Button type="primary" size="small" @click="getCode('registerForm')" :disabled="canNotGetCode">{{codeText}}</Button>
+                                <Button type="primary" size="small" @click="getCodeR('registerForm')" :disabled="canNotGetCodeR">{{codeTextR}}</Button>
                             </span>
                             </Input>
                         </FormItem>
@@ -212,9 +212,6 @@ export default {
       };
 
         return {
-          countdown:0,
-          canNotGetCode:false,
-          codeText:'获取验证码',
           verifyCode:null,
           autoLogin:false,
           cardShow:0,
@@ -259,10 +256,13 @@ export default {
                     { validator: validatCode, trigger: 'blur' }
                 ]
             },
-          countdown:0,
-          canNotGetCode:false,
           language:'allForCn',
-          codeText:'获取验证码'
+          countdown:60,
+          canNotGetCode:false,
+          codeText:'获取验证码',
+          countdownR:60,
+          canNotGetCodeR:false,
+          codeTextR:'获取验证码'
         };
     },
   mounted(){
@@ -276,7 +276,7 @@ export default {
         }else{
           this.autoLogin = false;
         }
-  },
+      },
       computed: {
         lang(){
           return this.$store.state.lang.loginIn
@@ -298,12 +298,63 @@ export default {
           this.countdown = 0;
         } else {
           this.canNotGetCode = true;
-          this.codeText = this.countdown + 's后获取验证码';
+          this.codeText =  this.countdown + 's后获取验证码';
           this.countdown--;
         };
         setTimeout(function() {
           _this.settime()
         },1000)
+      },
+      settimeR() {
+        const _this = this;
+        if (this.countdownR == 0) {
+          this.canNotGetCodeR = false;
+          this.codeTextR = '获取验证码';
+          this.countdownR = 0;
+        } else {
+          this.canNotGetCodeR = true;
+          this.codeTextR =  this.countdownR + 's后获取验证码';
+          this.countdownR--;
+        };
+        setTimeout(function() {
+          _this.settimeR()
+        },1000)
+      },
+      //获取验证码
+      getCodeR(name){
+        this.$refs[name].validate((valid) => {
+          if (valid) {
+            if (!this.canNotGetCodeR) {
+              this.settimeR()
+            } else {
+              return
+            };
+            let userId = this.$cookie.get('userId');
+            let accessToken = this.$cookie.get('accessToken');
+            let permissions = this.$cookie.get('permissions');
+            let data = {
+              phone: name=='registerForm'?this.registerForm.userPhone:this.forgetForm.userPhone,
+              bizCode: 2,
+              userId: userId,
+              loginType: 2,
+              accessToken: accessToken,
+              permissions: permissions
+            };
+            this.$http({
+              method: 'post',
+              url: this.$util.ajaxUrl + "/public/sendVcode",
+              data
+            }, (res) => {
+              if (res.data.code == 0) {
+                this.$Message.success("验证码获取成功")
+              } else {
+                this.$Message.error(res.data.msg)
+              }
+            }, (erro) => {
+              console.log(erro);
+            })
+          }
+        })
       },
       //获取验证码
       getCode(name){
@@ -346,6 +397,7 @@ export default {
         if(this.cardShow == 0){
           this.loginIn()
         }else if(this.cardShow == 2){
+
             this.registerAccount()
         }else if(this.cardShow == 1){
           this.findPsd()
