@@ -17,6 +17,16 @@
           .the-left{
             width: 120px;
           }
+          i{
+            font-style: normal;
+            display: inline-block;
+            line-height: 52px;
+            width: 32px;
+            margin-left: 10px;
+          }
+          .status{
+            color: #1AAD19;
+          }
           .the-right{
             flex: 1;
             display: flex;
@@ -33,6 +43,11 @@
               .vux-x-input-placeholder-right{
                 border-bottom: 1px solid #eadfdf;
                 text-align: center!important;
+              }
+              .weui-cell__ft{
+                .weui-switch{
+                  top:10px;
+                }
               }
             }
           }
@@ -132,28 +147,31 @@
           <li v-if="dataInfo.deviceType==1">
             <span class="the-right">
                <x-switch title="DO1类型：" v-model="dataInfo.do1TypeStatus"></x-switch>
-               <i>{{dataInfo.do1TypeStatus?'控制':'告警'}}</i>
+               <i class="status">{{dataInfo.do1TypeStatus?'控制':'告警'}}</i>
               </span>
           </li>
           <li v-if="dataInfo.deviceType==1">
             <span class="the-right">
                <x-switch title="DO1初始状态：" v-model="dataInfo.do1StatusStatus"></x-switch>
+              <i></i>
             </span>
           </li>
           <li v-if="dataInfo.deviceType==1">
             <span class="the-right">
                 <x-switch title="DO2类型：" v-model="dataInfo.do2TypeStatus"></x-switch>
-                <i>{{dataInfo.do2TypeStatus?'控制':'告警'}}</i>
+                <i class="status">{{dataInfo.do2TypeStatus?'控制':'告警'}}</i>
               </span>
           </li>
           <li v-if="dataInfo.deviceType==1">
             <span class="the-right">
              <x-switch title="DO2初始状态：" v-model="dataInfo.do2StatusStatus"></x-switch>
+               <i></i>
             </span>
           </li>
           <li>
             <span class="the-right">
                <x-switch title="断电报警：" v-model="dataInfo.isOutagesStatus"></x-switch>
+               <i></i>
               </span>
           </li>
         </ul>
@@ -215,6 +233,7 @@
         this.updateDevice(this.dataInfo)
       },
       updateDevice(it){
+        const _this =this;
         let data = {
           ...it,
           ...this.basic
@@ -230,6 +249,7 @@
               title: '提示',
               content: "保存成功！",
               onShow () {
+                _this.getInfo();
                 console.log('comfirm')
               },
               onHide () {

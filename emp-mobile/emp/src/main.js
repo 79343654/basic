@@ -10,7 +10,7 @@ FastClick.attach(document.body);
 import axios from "axios";
 import echarts from 'echarts'
 Vue.prototype.echarts = echarts;
-
+// Vue.prototype.ajaxUrl  = 'http://yun.huahanw.com/'
 // Vue.prototype.ajaxUrl = 'http://120.79.239.247:8080/monitoring';
 Vue.prototype.ajaxUrl = '../';
 
