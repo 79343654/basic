@@ -241,3 +241,36 @@
         width: auto;
     }
 }
+
+.transform-content{
+    flex:1;
+    display: flex;
+    flex-direction: column;
+    .list-item{
+        flex:1;
+        display: flex;
+        .ivu-form-item-content{
+            flex:1;
+            display: flex;
+            margin:0!important;
+            .ivu-transfer{
+                flex:1;
+                display: flex;
+                .ivu-transfer-list{
+                    height: 100%;
+                    flex:1;
+                }
+                .ivu-transfer-operation{
+                   margin:0 30px;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    .ivu-btn{
+                        width: 100%;
+                    }
+                }
+            }
+        }
+    }
+}
