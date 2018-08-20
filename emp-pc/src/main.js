@@ -10,6 +10,7 @@ import Cookies from 'js-cookie';
 
 Vue.use(iView);
 Vue.prototype.$echarts = echarts;
+// Vue.prototype.jeDate = jeDate;
 Vue.prototype.$cookie = Cookies;
 Vue.prototype.$http =function(options,successFn,erroFn){
   axios(options).then((res)=>{
