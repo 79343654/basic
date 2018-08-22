@@ -72,7 +72,7 @@
       },
      getBasicInfo(){
         let url = window.location.href;
-        // let url = 'http://120.79.239.247:8080/monitoring/phone/index.html#/?userId=1&loginType=2&accessToken=8d97589dbc9e462aaa429153dd72a62b&permissions=2&sn=C00711223301#/'
+        // let url = 'http://120.79.239.247:8080/monitoring/phone/index.html#/?userId=1&loginType=2&accessToken=c6ea88c94fc349478e315782f7bfc760&permissions=2&sn=C00711223301#/'
          this.basic = {
              userId:this.getUrl('userId',url)*1,
              loginType:this.getUrl('loginType',url)*1,

@@ -51,8 +51,12 @@
                                         <span class="main-user-name">{{ userName }}</span>
                                         <Icon type="arrow-down-b"></Icon>
                                     </a>
+
                                     <DropdownMenu slot="list">
                                         <DropdownItem name="reset" divided >{{lang.resetPsd}}</DropdownItem>
+                                    </DropdownMenu>
+                                    <DropdownMenu slot="list">
+                                        <DropdownItem divided  name="help" >帮助</DropdownItem>
                                     </DropdownMenu>
                                     <DropdownMenu slot="list">
                                         <DropdownItem name="loginout" @click="loginOut" divided>{{lang.loginOut}}</DropdownItem>
@@ -377,6 +381,8 @@ export default {
         handleClickUserDropdown (name) {
           if(name=='loginout'){
             this.loginOut()
+          }else if(name=='help'){
+            window.open('http://yun.huahanw.com/helpPc.html')
           }else{
             this.changePsd = true
           }

@@ -149,13 +149,13 @@ export default {
             name:'温度',
             type:'line',
             smooth: true,
-            data:this.accountListChart.humidityList
+            data:this.accountListChart.temperatureList
           },
           {
             name:'湿度',
             type:'line',
             smooth: true,
-            data:this.accountListChart.temperatureList
+            data:this.accountListChart.humidityList
           },
         ]
       };

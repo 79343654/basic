@@ -153,7 +153,7 @@
           <li v-if="dataInfo.deviceType==1">
             <span class="the-right">
                <x-switch title="DO1初始状态：" v-model="dataInfo.do1StatusStatus"></x-switch>
-              <i></i>
+              <i class="status">{{dataInfo.do1StatusStatus?'打开':'关闭'}}</i>
             </span>
           </li>
           <li v-if="dataInfo.deviceType==1">
@@ -165,13 +165,13 @@
           <li v-if="dataInfo.deviceType==1">
             <span class="the-right">
              <x-switch title="DO2初始状态：" v-model="dataInfo.do2StatusStatus"></x-switch>
-               <i></i>
+              <i class="status">{{dataInfo.do2StatusStatus?'打开':'关闭'}}</i>
             </span>
           </li>
           <li>
             <span class="the-right">
-               <x-switch title="断电报警：" v-model="dataInfo.isOutagesStatus"></x-switch>
-               <i></i>
+               <x-switch title="低电/断电告警：" v-model="dataInfo.isOutagesStatus"></x-switch>
+                <i class="status">{{dataInfo.isOutagesStatus?'开启':'关闭'}}</i>
               </span>
           </li>
         </ul>
