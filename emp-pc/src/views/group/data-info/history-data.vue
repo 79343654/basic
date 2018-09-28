@@ -73,13 +73,12 @@ export default {
               {title: '设备湿度', key: 'humidity'},
               {title: '记录时间', key: 'date'},
             ],
-          columns2:[
-            {title: '设备名称', key: 'deviceName'},
-            {title: '设备SN', key: 'sn'},
-            {title: '设备温度', key: 'temperature'},
-            {title: '设备湿度', key: 'humidity'},
-            {title: '记录时间', key: 'date'},
-            {title: '记录时间', key: 'writeTime'}
+          columns2: [
+            {title: 'Device name', key: 'deviceName'},
+            {title: 'Device SN', key: 'sn'},
+            {title: 'Equipment temperature', key: 'temperature'},
+            {title: 'Equipment humidity', key: 'humidity'},
+            {title: 'Recording time', key: 'date'},
           ],
           accountListTable: [],
           accountListChart:[]
@@ -91,7 +90,6 @@ export default {
   methods:{
     specialSelect(it){
      this.special = it;
-     console.log(it)
     },
     initPage(it){
       this.tableListPage = it
@@ -120,7 +118,7 @@ export default {
           trigger: 'axis'
         },
         legend: {
-          data:['温度','湿度']
+          data:[this.lang.temperature,this.lang.humidity]
         },
         grid: {
           left: '3%',
@@ -132,7 +130,7 @@ export default {
           feature: {
             saveAsImage: {
               type:'png',
-              name:'历史数据曲线图'
+              name:this.lang.HistoricalGraph
             }
           }
         },
@@ -146,13 +144,13 @@ export default {
         },
         series: [
           {
-            name:'温度',
+            name:this.lang.temperature,
             type:'line',
             smooth: true,
             data:this.accountListChart.temperatureList
           },
           {
-            name:'湿度',
+            name:this.lang.humidity,
             type:'line',
             smooth: true,
             data:this.accountListChart.humidityList

@@ -334,7 +334,7 @@ export default {
             let permissions = this.$cookie.get('permissions');
             let data = {
               phone: name=='registerForm'?this.registerForm.userPhone:this.forgetForm.userPhone,
-              bizCode: 2,
+              bizCode: 1,
               userId: userId,
               loginType: 2,
               accessToken: accessToken,
@@ -494,8 +494,24 @@ export default {
               url:this.$util.ajaxUrl+"/user/register",
               data
             },(res)=>{
+              let result = res.data.data;
               if(res.data.code=='0'){
                 this.$Message.success("注册成功");
+                Cookies.set('accessToken', result.accessToken);
+                Cookies.set('permissions', result.permissions);
+                Cookies.set('companyName', result.name);
+                Cookies.set('userId', result.userId);
+                Cookies.set('account', result.account);
+                Cookies.set('msgNum', result.msgNum);
+                this.$router.replace({
+                  name: 'home_index',
+                  query:{
+                    account:result.account,
+                    msgNum:result.msgNum,
+                    userId:result.userId,
+                    permissions:result.permissions
+                  }
+                });
               }else{
                 this.$Message.error(res.data.msg);
               }

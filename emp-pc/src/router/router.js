@@ -61,8 +61,8 @@ export const appRouter = [
         component: Main,
         children: [
             {
-                path: 'online-data-1',
-                name: 'online-data-1',
+                path: 'online-data-now',
+                name: 'online-data-now',
                 icon: 'ios-paper-outline',
                 title: '实时数据',
                 component: resolve => { require(['@/views/group/online/online-data.vue'], resolve); }
@@ -90,10 +90,10 @@ export const appRouter = [
         title: '实时数据',
         component: resolve => { require(['@/views/group/online/online-data.vue'], resolve); }
       },
-      { path: 'history-data-1',
+      { path: 'history-data-now',
         title: '历史数据',
         icon: 'ios-paper-outline',
-        name: 'history-data-1',
+        name: 'history-data-now',
         component: resolve => { require(['@/views/group/data-info/history-data.vue'], resolve); }
       },
       { path: 'recorde',
@@ -155,25 +155,25 @@ export const appRouter = [
               name: 'history-data',
               component: resolve => { require(['@/views/group/data-info/history-data.vue'], resolve); }
             },
-              { path: 'recorde-1',
+              { path: 'recorde-now',
                 title: '预警记录',
                 icon: 'ios-paper-outline',
-                name: 'recorde-1',
+                name: 'recorde-now',
                 component: resolve => { require(['@/views/group/data-info/recorde.vue'], resolve); }
               }
         ]
     },
     {
-      path: '/device-management-1',
+      path: '/device-management-on',
       title: '设备管理',
-      name: 'device-management-1',
+      name: 'device-management-on',
       icon: 'ios-paper-outline',
       component: Main,
       children: [
-        { path: 'share-to-me-1',
+        { path: 'share-to-me-now',
           title: '分享给我的设备',
           icon: 'ios-paper-outline',
-          name: 'share-to-me-1',
+          name: 'share-to-me-now',
           component: resolve => { require(['@/views/group/device/share-to-me.vue'], resolve); }
         }
       ]
@@ -245,10 +245,10 @@ export const appRouter = [
             name: 'area-management',
             component: resolve => { require(['@/views/group/user-management/area-management.vue'], resolve); }
           },
-          { path: 'user-info-1',
+          { path: 'user-info-now',
             title: '个人信息',
             icon: 'ios-paper-outline',
-            name: 'user-info-1',
+            name: 'user-info-now',
             component: resolve => { require(['@/views/group/user-management/user-info.vue'], resolve); }
           }
         ]

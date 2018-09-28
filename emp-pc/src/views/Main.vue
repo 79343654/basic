@@ -51,12 +51,11 @@
                                         <span class="main-user-name">{{ userName }}</span>
                                         <Icon type="arrow-down-b"></Icon>
                                     </a>
-
                                     <DropdownMenu slot="list">
                                         <DropdownItem name="reset" divided >{{lang.resetPsd}}</DropdownItem>
                                     </DropdownMenu>
                                     <DropdownMenu slot="list">
-                                        <DropdownItem divided  name="help" >帮助</DropdownItem>
+                                        <DropdownItem divided  name="help" >{{lang.help}}</DropdownItem>
                                     </DropdownMenu>
                                     <DropdownMenu slot="list">
                                         <DropdownItem name="loginout" @click="loginOut" divided>{{lang.loginOut}}</DropdownItem>
@@ -229,7 +228,7 @@ export default {
                 }
                 /*子用户*/
               }else if(_this.permissions==3){
-                if(val.name=='online-watch'||val.name=='data-info'||val.name=='device-management-1'||val.name=="user-management-child"){
+                if(val.name=='online-watch'||val.name=='data-info'||val.name=='device-management-on'||val.name=="user-management-child"){
                   hasList.push(val)
                 }
               }
@@ -248,10 +247,11 @@ export default {
         },
       },
       mounted(){
-      this.language = Cookies.get("language")
-      if(Cookies.get('choosedUserInfo')!=undefined){
-        this.choosedUserInfo = JSON.parse(Cookies.get('choosedUserInfo'));
-      }
+      this.language = Cookies.get("language");
+        this.$store.dispatch("changeLanguage", this.language);
+          if(Cookies.get('choosedUserInfo')!=undefined){
+            this.choosedUserInfo = JSON.parse(Cookies.get('choosedUserInfo'));
+          };
         this.permissions =  Cookies.get('permissions');
         this.userName =  Cookies.get('account');
         this.msgNum =   Cookies.get('msgNum');
@@ -272,11 +272,11 @@ export default {
             this.activeName = 'online-data'
             this.$refs.sideMenu.handleChange('online-data')
           } else if (this.permissions == '2') {
-            this.activeName = 'online-data-1'
-            this.$refs.sideMenu.handleChange('online-data-1')
+            this.activeName = 'online-data-now'
+            this.$refs.sideMenu.handleChange('online-data-now')
           } else if (this.permissions == '3') {
-            this.activeName = 'online-data-1'
-            this.$refs.sideMenu.handleChange('online-data-1')
+            this.activeName = 'online-data-now'
+            this.$refs.sideMenu.handleChange('online-data-now')
           }
         }else{
           this.activeName = this.$route.name
@@ -347,7 +347,7 @@ export default {
         changeLang(value){
             this.language = value;
             this.$store.dispatch("changeLanguage", value);
-          Cookies.set('language', value);
+            Cookies.set('language', value);
         },
       /*退出登陆*/
       loginOut(){

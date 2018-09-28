@@ -34,7 +34,7 @@ module.exports = merge(webpackBaseConfig, {
             minChunks: Infinity
         }),
         new HtmlWebpackPlugin({
-            title: 'enjoylink' + package.version,
+            title: '环境监控平台',
             filename: '../index.html',
             template: './src/template/index.ejs',
             inject: false
